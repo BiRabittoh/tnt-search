@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <title>TNT Search</title>
+      <style>
+        .row {
+          margin-bottom: 40px;
+        }
+      </style>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    </head>
+    <body style="background-color: black; color: white;">
+      <div class="container mt-5">
+
+        <div class="row d-flex justify-content-center">
+          <div class="col-md-6">
+            <select class="form-select" id="form2" aria-label="Category" onchange="search_button()" data-bs-theme="dark">
+              <option selected value="0">Tutte</option>
+                {% for n_cat, cat in categories %}
+                <option value="{{ n_cat }}">{{ cat }}</option>
+                {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-6">
+            <div class="input-group justify-content-center">
+              <div class="form-outline">
+                <input type="search" id="form1" class="form-control" />
+              </div>
+              <button type="button" class="btn btn-primary" onclick="search_button()">
+                Cerca
+                <!--
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="c="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                -->
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+          <div class="col-md-4">
+            <a href="#" onclick="change_page(-1)">
+              Pagina precedente
+            </a>
+          </div>
+          <div class="col-md-4" style="text-align: center;" id="page_indicator">
+          </div>
+          <div class="col-md-4" style="text-align: right;">
+            <a href="#" onclick="change_page()">
+              Pagina successiva
+            </a>
+          </div>
+        </div>
+
+        <div class="row">
+          <table class="table table-striped table-dark">
+            <thead>
+              <tr>
+                {% for header in headers %}
+                <th scope="col">{{ header }}</th>
+                {% endfor %}
+              </tr>
+            </thead>
+            <tbody>
+              {% for row in content %}
+              <tr>
+                {% for el in row %}
+                <td>{{ el|safe }}</td>
+                {% endfor %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+        <script>
+          const search_field = document.getElementById("form1");
+          const category_field = document.getElementById("form2");
+          const page_indicator = document.getElementById("page_indicator");
+
+          const param_keywords = "keywords";
+          const param_category = "category";
+          const param_page = "page";
+
+          function get_query_info() {
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+
+            const query = urlParams.has(param_keywords) ? urlParams.get(param_keywords) : "";
+            const category = urlParams.has(param_category) ? urlParams.get(param_category) : 0;
+            const page = urlParams.has(param_page) ? urlParams.get(param_page) : 1;
+
+            return [ query, parseInt(category), parseInt(page) ];
+          }
+
+          function search(query="", category=0, page=1) {
+            const params_temp = new URLSearchParams({"keywords": query, "category": category, "page": page});
+            const url = window.location.origin + window.location.pathname + "?" + params_temp.toString();
+            window.location.assign(url);
+          }
+
+          function search_button() {
+            const query = search_field.value;
+            const category = parseInt(category_field.value);
+            search(query, category, 1);
+          }
+
+          function change_page(increase = 1) {
+            page = result[2] + increase;
+
+            search(result[0], result[1], page > 0 ? page : 1);
+          }
+          
+          result = get_query_info();
+
+          search_field.value = result[0];
+          console.log(category_field.value, result[1]);
+          category_field.value = result[1];
+          console.log(category_field.value)
+          page_indicator.innerHTML = "Pagina " + result[2];
+          search_field.addEventListener("keyup", ({key}) => {
+            if (key === "Enter") {
+              search_button()
+            }
+          })
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    </body>
+</html>
