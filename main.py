@@ -50,11 +50,14 @@ def search_keyword(content, keyword: str, category=0):
     return [ x for x in results if category == x['CATEGORIA']]
 
 def get_last_torrents(content, page=1, amt=50):
-    tmp = sorted(content, key=lambda x:x['DATA'])
+    tmp = sorted(content, key=lambda x:x['DATA'], reverse=True)
     tmp_length = len(content)
     
-    start_from = tmp_length - (amt * page)
-    end_with = tmp_length
+    offset = amt * page
+    start_from = offset - amt
+    start_from = 0 if start_from < 0 else start_from
+    end_with = start_from + amt
+    end_with = tmp_length if end_with > tmp_length else end_with
     return tmp[start_from:end_with]
 
 def load_content(input_path=INPUT_PATH):
@@ -76,7 +79,6 @@ def parse_values(result):
     tmp['CATEGORIA'] = CATEGORIE[int(tmp['CATEGORIA'])]
     tmp['HASH'] = MAGNET_STR.format(tmp['HASH'])
     tmp['DIMENSIONE'] = sizeof_fmt(tmp['DIMENSIONE'])
-    tmp['DESCRIZIONE'] = f"<span title='Autore: {tmp['AUTORE']}'>{tmp['DESCRIZIONE']}</span>"
     return tmp
 
 def format_results(results, headers=HEADER):
