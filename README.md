@@ -20,17 +20,14 @@ waitress-serve --host 127.0.0.1 --port 5000 main:app
 ```
 
 ### Docker
-Build image:
+
+Either use Docker CLI:
 ```
 docker build -t tnt-search .
-```
-
-Then, either use Docker CLI:
-```
 docker run -d --name tnt-search --restart unless-stopped -p 5000:5000 tnt-search
 ```
 
-Or, better, docker-compose (already set up for reverse-proxy only):
+Or, better, `docker-compose`:
 ```
 docker-compose up -d
 ```
