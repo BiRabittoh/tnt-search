@@ -1,0 +1,7 @@
+services:
+  tnt-search:
+    image: tnt-search
+    container_name: tnt-search
+    ports:
+      - "127.0.0.1:5000:5000" # Replace with "5000:5000" if you don't use a reverse proxy
+    restart: unless-stopped
