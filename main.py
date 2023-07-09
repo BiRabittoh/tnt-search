@@ -38,7 +38,7 @@ CATEGORIE = {
     36: "Edicola",
     37: "Mobile"
 }
-MAGNET_STR = '<button onclick=\"location.href=\'magnet:?xt=urn:btih:{}\'\" class="btn btn-danger">m</button>'
+MAGNET_STR = '<button onclick=\"location.href=\'magnet:?xt=urn:btih:{}\'\" class="btn btn-danger">n</button>'
 
 def handle_content(content: str):
     return { x: content[idx] for idx, x in enumerate(HEADER) }
@@ -82,7 +82,6 @@ def parse_values(result):
     return tmp
 
 def format_results(results, headers=HEADER):
-    print(len(results))
     contents = [parse_values(x) for x in results]
     return [[result[header] for header in headers] for result in contents]
 
