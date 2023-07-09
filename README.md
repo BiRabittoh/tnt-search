@@ -2,9 +2,17 @@
 
 ## Instructions
 
+First, make sure to clone everything correctly:
+```
+git clone https://github.com/BiRabittoh/tnt-search
+cd tnt-search
+git submodule init
+git submodule update
+```
+
 ### Bare metal
 ```
-python -m venv venv
+python3 -m venv venv
 source venv\bin\activate
 pip install --upgrade pip
 pip install -r requirements.txt
