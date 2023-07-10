@@ -2,6 +2,11 @@ services:
   tnt-search:
     build: .
     container_name: tnt-search
-    ports:
-      - "127.0.0.1:5000:5000" # Replace with "5000:5000" if you don't use a reverse proxy
+    #ports:
+    #  - "5000:5000" # Uncomment if you don't use a reverse proxy
     restart: unless-stopped
+    networks:
+      - swag_default
+networks:
+  swag_default:
+    external: true
