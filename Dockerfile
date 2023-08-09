@@ -1,4 +1,4 @@
-FROM tiangolo/meinheld-gunicorn-flask:python3.9-alpine3.13
+FROM tecktron/python-waitress:slim
 
 WORKDIR /app
 
