@@ -1,11 +1,11 @@
-FROM python:3-alpine
-
-COPY main.py .
-COPY requirements.txt .
-COPY tntvillage-release-dump ./tntvillage-release-dump
-COPY templates ./templates
+FROM tiangolo/meinheld-gunicorn-flask:python3.9-alpine3.13
 
 RUN pip install --upgrade pip
+COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-CMD ["waitress-serve", "--host", "0.0.0.0", "--port", "5000", "main:app"]
+COPY main.py /app/main.py
+COPY tntvillage-release-dump /app/tntvillage-release-dump
+COPY templates /app/templates
+
+ENV APP_MODULE=main:app

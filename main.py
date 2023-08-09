@@ -96,14 +96,14 @@ app = Flask(__name__)
 
 @app.route('/api/header')
 def route_api_header():
-    return json.dumps(HEADER)
+    return HEADER
 
 @app.route('/api')
 def route_api():
     keywords, category, page = get_args(request.args)
     results = search_keyword(content, keywords, int(category))
     results = get_last_torrents(results, page=int(page))
-    return json.dumps(results)
+    return results
 
 @app.route('/')
 def route_main():
