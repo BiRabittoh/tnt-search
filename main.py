@@ -38,7 +38,7 @@ CATEGORIE = {
     36: "Edicola",
     37: "Mobile"
 }
-MAGNET_STR = '<button onclick=\"location.href=\'magnet:?xt=urn:btih:{}\'\" class="btn btn-danger">n</button>'
+MAGNET_STR = '<a href="magnet:?xt=urn:btih:{}" class="btn btn-danger">m</a>'
 
 def handle_content(content: str):
     return { x: content[idx] for idx, x in enumerate(HEADER) }
